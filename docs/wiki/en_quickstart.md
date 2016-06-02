@@ -19,19 +19,19 @@ The quick start gives very basic example of running server and client on the sam
     <dependency>
         <groupId>com.weibo</groupId>
         <artifactId>motan-core</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </dependency>
     <dependency>
         <groupId>com.weibo</groupId>
         <artifactId>motan-transport-netty</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </dependency>
     
     <!-- dependencies blow were only needed for spring-based features -->
     <dependency>
         <groupId>com.weibo</groupId>
         <artifactId>motan-springsupport</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
@@ -80,7 +80,7 @@ The quick start gives very basic example of running server and client on the sam
 
         <!-- service implemention bean -->
         <bean id="serviceImpl" class="quickstart.FooServiceImpl" />
-        <!-- exporting service by motan -->
+        <!-- exporting service by Motan -->
         <motan:service interface="quickstart.FooService" ref="serviceImpl" export="8002" />
     </beans>
     ```
@@ -97,12 +97,13 @@ The quick start gives very basic example of running server and client on the sam
     
         public static void main(String[] args) throws InterruptedException {
             ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:motan_server.xml");
+            MotanSwitcherUtil.setSwitcherValue(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, true);
             System.out.println("server start...");
         }
     }
     ```
     
-    Execute main function in Server will start a motan server listening on port 8002.
+    Execute main function in Server will start a Motan server listening on port 8002.
 
 4. Create and start RPC Client.
 
@@ -144,7 +145,7 @@ The quick start gives very basic example of running server and client on the sam
     
 ## <a id="cluster"></a>Using Motan in cluster environment
 
-In cluster environment, the external service discovery components such as Consul or ZooKeeper is needed to support the use of motan.
+In cluster environment, the external service discovery components such as Consul or ZooKeeper is needed to support the use of Motan.
 
 
 ### <a id="consul"></a>Using Consul as registry
@@ -173,7 +174,7 @@ UI backend [http://localhost:8500/ui](http://localhost:8500/ui)
     <dependency>
         <groupId>com.weibo</groupId>
         <artifactId>motan-registry-consul</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </dependency>
     ```
 
@@ -197,10 +198,10 @@ UI backend [http://localhost:8500/ui](http://localhost:8500/ui)
     <motan:referer id="remoteService" interface="quickstart.FooService" registry="my_consul"/>
     ```
 
-4. After the server starts, you SHOULD call hearbeat switcher explicitly in order to start heartbeat for Consul.
+4. After the server starts, you SHOULD call heartbeat switcher explicitly in order to start heartbeat for Consul.
 
     ```java
-    MotanSwitcherUtil.setSwitcher(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, true)
+    MotanSwitcherUtil.setSwitcherValue(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, true)
     ```
 
 5. Go to [UI backend](http://localhost:8500/ui). Verify whether the service is normal.
@@ -230,7 +231,7 @@ Install and start ZooKeeper:
     <dependency>
         <groupId>com.weibo</groupId>
         <artifactId>motan-registry-zookeeper</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </dependency>
     ```
 
@@ -262,10 +263,10 @@ Install and start ZooKeeper:
     <motan:referer id="remoteService" interface="quickstart.FooService" registry="my_zookeeper"/>
     ```
 
-4. After the server starts, you SHOULD call hearbeat switcher explicitly in order to start heartbeat for Zookeeper.
+4. After the server starts, you SHOULD call heartbeat switcher explicitly in order to start heartbeat for Zookeeper.
 
     ```java
-    MotanSwitcherUtil.setSwitcher(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, true)
+    MotanSwitcherUtil.setSwitcherValue(MotanConstants.REGISTRY_HEARTBEAT_SWITCHER, true)
     ```
 
 5. Start client, call service.
